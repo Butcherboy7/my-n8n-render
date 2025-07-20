@@ -5,34 +5,33 @@ FROM n8nio/n8n:1.102.4
 USER root
 
 #==============================================================================
-# INSTALL ESSENTIAL SYSTEM LIBRARIES
-# Installs powerful command-line tools that many nodes rely on.
-# We use --no-install-recommends to keep the image size smaller.
+# INSTALL ESSENTIAL SYSTEM LIBRARIES (using apk for Alpine Linux)
+# This is the corrected command block for the n8n base image.
 #==============================================================================
-RUN apt-get update && apt-get install -y --no-install-recommends \
+RUN apk update && apk add --no-cache \
     # --- For PDF Reading ---
     poppler-utils \
     \
     # --- For Web Scraping & Browser Automation (Puppeteer Node) ---
     chromium \
     \
-    # --- For Video, Audio & Image Processing ---
+    # --- For Video & Audio Processing ---
     ffmpeg \
+    \
+    # --- For Advanced Image Manipulation ---
     imagemagick \
     \
     # --- For Reading Text from Images (OCR) ---
     tesseract-ocr \
     \
-    # --- General Command-Line Utilities (for the "Execute Command" node) ---
+    # --- General Command-Line Utilities ---
     git \
     curl \
     wget \
-    jq \
-    && rm -rf /var/lib/apt/lists/*
+    jq
 
 #==============================================================================
-# INSTALL 30+ TOP-TIER COMMUNITY NODES
-# This is the official way to add community nodes to the Docker image.
+# INSTALL POPULAR COMMUNITY NODES (This part was correct and stays the same)
 #==============================================================================
 RUN n8n-nodes-install \
     # --- AI & Large Language Models ---
