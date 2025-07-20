@@ -1,11 +1,12 @@
 # ----------------------------------------------------------
 # n8n 1.102.4 – Render-ready Docker image
+# (works around the missing n8n-nodes-install helper)
 # ----------------------------------------------------------
 FROM n8nio/n8n:1.102.4
 
 USER root
 
-# System-level dependencies (Alpine)
+# System-level dependencies (unchanged)
 RUN apk update && apk add --no-cache \
     poppler-utils \
     chromium udev ttf-freefont dbus \
@@ -13,45 +14,51 @@ RUN apk update && apk add --no-cache \
     imagemagick \
     git curl wget jq
 
+# Switch to the node user **before** installing community nodes
 USER node
 
-# Install only community nodes that exist on npm
-RUN npm exec -- n8n-nodes-install \
-    n8n-nodes-anthropic \
-    n8n-nodes-google-generative-ai \
-    n8n-nodes-langchain \
-    n8n-nodes-pinecone \
-    n8n-nodes-puppeteer \
-    n8n-nodes-spreadsheet-file \
-    n8n-nodes-airtable \
-    n8n-nodes-notion \
-    n8n-nodes-slack \
-    n8n-nodes-gmail \
-    n8n-nodes-microsoftOutlook \
-    n8n-nodes-telegram \
-    n8n-nodes-discord \
-    n8n-nodes-twilio \
-    n8n-nodes-sendgrid \
-    n8n-nodes-resend \
-    n8n-nodes-typeform \
-    n8n-nodes-calendly \
-    n8n-nodes-zoom \
-    n8n-nodes-google-drive \
-    n8n-nodes-aws-s3 \
-    n8n-nodes-mongodb \
-    n8n-nodes-postgres \
-    n8n-nodes-mysql \
-    n8n-nodes-redis \
-    n8n-nodes-hubspot \
-    n8n-nodes-salesforce \
-    n8n-nodes-pipedrive \
-    n8n-nodes-stripe \
-    n8n-nodes-paypal \
-    n8n-nodes-facebookGraphApi \
-    n8n-nodes-twitterApi \
-    n8n-nodes-linkedin \
-    n8n-nodes-googleAds \
-    n8n-nodes-github \
-    n8n-nodes-ssh \
-    n8n-nodes-datadog \
-    n8n-nodes-sentry
+# Community nodes – install directly into the n8n user directory
+# (the trailing “@latest” is optional but keeps the syntax explicit)
+RUN cd /home/node/.n8n && \
+    npm install \
+        n8n-nodes-anthropic@latest \
+        n8n-nodes-google-generative-ai@latest \
+        n8n-nodes-langchain@latest \
+        n8n-nodes-pinecone@latest \
+        n8n-nodes-puppeteer@latest \
+        n8n-nodes-spreadsheet-file@latest \
+        n8n-nodes-airtable@latest \
+        n8n-nodes-notion@latest \
+        n8n-nodes-slack@latest \
+        n8n-nodes-gmail@latest \
+        n8n-nodes-microsoft-outlook@latest \
+        n8n-nodes-telegram@latest \
+        n8n-nodes-discord@latest \
+        n8n-nodes-twilio@latest \
+        n8n-nodes-sendgrid@latest \
+        n8n-nodes-resend@latest \
+        n8n-nodes-typeform@latest \
+        n8n-nodes-calendly@latest \
+        n8n-nodes-zoom@latest \
+        n8n-nodes-google-drive@latest \
+        n8n-nodes-aws-s3@latest \
+        n8n-nodes-mongodb@latest \
+        n8n-nodes-postgres@latest \
+        n8n-nodes-mysql@latest \
+        n8n-nodes-redis@latest \
+        n8n-nodes-hubspot@latest \
+        n8n-nodes-salesforce@latest \
+        n8n-nodes-pipedrive@latest \
+        n8n-nodes-stripe@latest \
+        n8n-nodes-paypal@latest \
+        n8n-nodes-facebook-graph-api@latest \
+        n8n-nodes-twitter-api@latest \
+        n8n-nodes-linkedin@latest \
+        n8n-nodes-google-ads@latest \
+        n8n-nodes-github@latest \
+        n8n-nodes-ssh@latest \
+        n8n-nodes-datadog@latest \
+        n8n-nodes-sentry@latest
+
+# (Optional) expose port and health-check if you want to customise ENTRYPOINT
+EXPOSE 5678
