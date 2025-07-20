@@ -24,8 +24,6 @@ RUN <<'EOF'
     n8n-nodes-airtable \
     n8n-nodes-notion \
     n8n-nodes-slack \
-    n8n-nodes-gmail \
-    n8n-nodes-microsoft-outlook \
     n8n-nodes-telegram \
     n8n-nodes-discord \
     n8n-nodes-twilio \
@@ -34,11 +32,7 @@ RUN <<'EOF'
     n8n-nodes-typeform \
     n8n-nodes-calendly \
     n8n-nodes-zoom \
-    n8n-nodes-google-drive \
-    n8n-nodes-aws-s3 \
     n8n-nodes-mongodb \
-    n8n-nodes-postgres \
-    n8n-nodes-mysql \
     n8n-nodes-redis \
     n8n-nodes-hubspot \
     n8n-nodes-salesforce \
@@ -47,9 +41,7 @@ RUN <<'EOF'
     n8n-nodes-paypal \
     n8n-nodes-facebook-graph-api \
     n8n-nodes-twitter-api \
-    n8n-nodes-linkedin \
     n8n-nodes-google-ads \
-    n8n-nodes-github \
     n8n-nodes-ssh \
     n8n-nodes-datadog \
     n8n-nodes-sentry
