@@ -22,11 +22,12 @@ RUN apk update && apk add --no-cache \
     wget \
     jq
 
-# Switch back to the non-root 'node' user for security and correct paths
+# Switch back to the non-root 'node' user for security
 USER node
 
-# Install the requested community nodes as the 'node' user
-RUN n8n-nodes-install \
+# Install the requested community nodes using the SCRIPT'S FULL PATH
+# This is the definitive fix for the 'command not found' error.
+RUN /usr/local/lib/node_modules/n8n/packages/cli/bin/n8n-nodes-install \
     n8n-nodes-anthropic \
     n8n-nodes-cohere \
     n8n-nodes-google-generative-ai \
